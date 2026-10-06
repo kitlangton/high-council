@@ -1,0 +1,10 @@
+node_modules/
+.cache/
+.DS_Store
+*.log
+.briefings/
+public/codec/try/
+.scratch/
+art/
+masks/
+public/advisors/*/base.png

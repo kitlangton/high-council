@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>DEFCON // High Council</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #02080d; overflow: hidden; overscroll-behavior: none; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #fallback { position: fixed; inset: 0; display: none; place-items: center; color: #38bdf8; font: 15px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="fallback">WebGPU required.</div>
+<script type="module" src="./defcon.ts"></script>
+</body>
+</html>

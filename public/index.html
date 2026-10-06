@@ -1,0 +1,1510 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HIGH COUNCIL — Civilization II CD-ROM Edition</title>
+  <style>
+    :root {
+      --win-face: #b8b4a8;
+      --win-hi: #f4f0e4;
+      --win-light: #d8d3c4;
+      --win-shadow: #6e6a5e;
+      --win-dkshadow: #1c1a16;
+      --stone-bg: #26231e;
+      --stone-panel: #363028;
+      --stone-hi: #665d4f;
+      --stone-lo: #12100c;
+      --parchment: #ebe1c2;
+      --parchment-dk: #cfc096;
+      --title-navy: #000080;
+      --gold: #ffcc33;
+      --red-anarchy: #e61919;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+    }
+
+    body {
+      background-color: #110f0c;
+      background-image:
+        radial-gradient(#2c2720 1px, transparent 0),
+        radial-gradient(#080705 1px, transparent 0);
+      background-size: 6px 6px;
+      background-position: 0 0, 3px 3px;
+      color: #f0ead8;
+      font-family: "MS Sans Serif", "Tahoma", "Geneva", "Verdana", sans-serif;
+      font-size: 12px;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      user-select: none;
+      -webkit-font-smoothing: none;
+    }
+
+    /* Outer Windows 95 / MicroProse Chiseled Stone Dialog Frame */
+    .civ2-window {
+      width: 100%;
+      max-width: 1040px;
+      background-color: var(--stone-panel);
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.025) 0px,
+          rgba(255, 255, 255, 0.025) 2px,
+          rgba(0, 0, 0, 0.07) 2px,
+          rgba(0, 0, 0, 0.07) 4px
+        );
+      border-top: 4px solid var(--stone-hi);
+      border-left: 4px solid var(--stone-hi);
+      border-right: 4px solid var(--stone-lo);
+      border-bottom: 4px solid var(--stone-lo);
+      box-shadow:
+        inset 2px 2px 0 #827766,
+        inset -2px -2px 0 #1f1b16,
+        8px 8px 0 #000000;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Classic Win95 / MicroProse Title Bar */
+    .titlebar {
+      background: linear-gradient(90deg, #4e1212 0%, #805b16 55%, #2b2418 100%);
+      border-top: 2px solid #c9a458;
+      border-left: 2px solid #c9a458;
+      border-right: 2px solid #1c150a;
+      border-bottom: 2px solid #1c150a;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      text-shadow: 2px 2px 0 #000;
+      flex-wrap: wrap;
+    }
+
+    .cdrom-tag {
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: #000;
+      color: #00ff66;
+      padding: 2px 6px;
+      border: 2px inset #555;
+      text-shadow: none;
+    }
+
+    .titlebar-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    /* Chunky Win95 / MicroProse 3D Bevel Pushbutton & Select */
+    button,
+    select.win95-select,
+    a.win95-link {
+      font-family: "MS Sans Serif", "Tahoma", sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #111;
+      background: var(--win-face);
+      border-top: 2px solid var(--win-hi);
+      border-left: 2px solid var(--win-hi);
+      border-right: 2px solid var(--win-dkshadow);
+      border-bottom: 2px solid var(--win-dkshadow);
+      box-shadow:
+        inset 1px 1px 0 var(--win-light),
+        inset -1px -1px 0 var(--win-shadow);
+      padding: 4px 9px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    select.win95-select {
+      background: #f4f0e4;
+      padding: 3px 6px;
+    }
+
+    button:active,
+    button.active,
+    a.win95-link:active {
+      border-top: 2px solid var(--win-dkshadow);
+      border-left: 2px solid var(--win-dkshadow);
+      border-right: 2px solid var(--win-hi);
+      border-bottom: 2px solid var(--win-hi);
+      box-shadow:
+        inset 1px 1px 0 var(--win-shadow),
+        inset -1px -1px 0 var(--win-light);
+      padding: 5px 8px 3px 10px;
+      background: #9e9a8e;
+    }
+
+    button:focus-visible {
+      outline: 1px dotted #000;
+      outline-offset: -4px;
+    }
+
+    button.anarchy-btn {
+      background: #9e2a2a;
+      color: #fff;
+      border-top-color: #ff8a8a;
+      border-left-color: #ff8a8a;
+      border-right-color: #380606;
+      border-bottom-color: #380606;
+      box-shadow:
+        inset 1px 1px 0 #cc4444,
+        inset -1px -1px 0 #5e1111;
+    }
+
+    button.anarchy-btn.active {
+      background: #cc0000;
+      color: #ffff00;
+    }
+
+    /* Authentic 3x2 Large 4:3 Council Monitor Gallery (native 320x240 Cinepak proportions) */
+    .council-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      width: 100%;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 760px) {
+      .council-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Individual Advisor Stone Bevel Panel */
+    .advisor-card {
+      background: #2b2620;
+      border-top: 3px solid #736858;
+      border-left: 3px solid #736858;
+      border-right: 3px solid #12100d;
+      border-bottom: 3px solid #12100d;
+      box-shadow:
+        inset 1px 1px 0 #8f826e,
+        inset -1px -1px 0 #1f1b16;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .advisor-card.selected {
+      background: #403522;
+      border-top-color: var(--gold);
+      border-left-color: var(--gold);
+      box-shadow:
+        inset 1px 1px 0 #fff0b3,
+        inset -1px -1px 0 #664d00;
+    }
+
+    .advisor-card.speaking {
+      background: #4f3e18;
+      border-top-color: #ffe066;
+      border-left-color: #ffe066;
+    }
+
+    .advisor-card.interjecting {
+      background: #541d1d;
+      border-top-color: #ff6666;
+      border-left-color: #ff6666;
+    }
+
+    .advisor-card.status-dismissed {
+      filter: grayscale(0.75) contrast(0.9);
+      opacity: 0.72;
+    }
+
+    /* Sunken 4:3 Video Monitor Bevel Well */
+    .portrait-viewport {
+      position: relative;
+      width: 100%;
+      max-height: 204px;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #050403;
+      border-top: 3px solid #0e0c0a;
+      border-left: 3px solid #0e0c0a;
+      border-right: 3px solid #695f50;
+      border-bottom: 3px solid #695f50;
+      box-shadow: inset 2px 2px 0 #000;
+      image-rendering: pixelated;
+    }
+
+    /* Hard 90s scanline + RGB phosphor grid overlay */
+    .portrait-viewport::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0) 0px,
+          rgba(0, 0, 0, 0) 1px,
+          rgba(0, 0, 0, 0.26) 2px,
+          rgba(0, 0, 0, 0.26) 3px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 0, 0, 0.035) 0px,
+          rgba(0, 255, 0, 0.035) 1px,
+          rgba(0, 100, 255, 0.035) 2px
+        );
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .portrait-rig {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+    }
+
+    .sprite-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      image-rendering: pixelated;
+      pointer-events: none;
+      display: none;
+    }
+
+    .sprite-layer.visible {
+      display: block;
+    }
+
+    .blink-layer {
+      z-index: 2;
+    }
+
+    .mouth-layer {
+      z-index: 3;
+    }
+
+    /* HUD Pills inside 4:3 monitor */
+    .viewport-top-pills {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .expr-pill,
+    .status-pill {
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 1px 5px;
+      background: rgba(0, 0, 0, 0.88);
+      border: 1px solid #808080;
+      color: #00ff66;
+    }
+
+    .advisor-card.speaking .expr-pill {
+      color: #ffff00;
+      border-color: #ffff00;
+    }
+
+    .status-pill.planned {
+      background: #004d00;
+      color: #80ff80;
+      border-color: #80ff80;
+    }
+
+    .status-pill.investigating {
+      background: #4d3800;
+      color: #ffe066;
+      border-color: #ffe066;
+    }
+
+    .status-pill.dismissed {
+      background: #4d0000;
+      color: #ff8080;
+      border-color: #ff8080;
+    }
+
+    /* Civ II Anarchy red "A" screen overlay */
+    .anarchy-screen {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          #180000 0px,
+          #180000 2px,
+          #380000 2px,
+          #380000 4px
+        );
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9;
+      pointer-events: none;
+    }
+
+    .anarchy-screen.visible {
+      display: flex;
+    }
+
+    .anarchy-letter {
+      font-size: 96px;
+      font-weight: 900;
+      color: var(--red-anarchy);
+      text-shadow: 4px 4px 0 #000;
+      font-family: "Times New Roman", Georgia, serif;
+    }
+
+    /* Classic Civ II Speech Balloon inside monitor on interjection */
+    .shout-banner {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      background: var(--parchment);
+      color: #000;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #222;
+      border-bottom: 2px solid #222;
+      box-shadow: 2px 2px 0 #000;
+      padding: 4px 7px;
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+      z-index: 8;
+      display: none;
+    }
+
+    .shout-banner.visible {
+      display: block;
+    }
+
+    /* Sunken Stone Nameplate Plaque */
+    .advisor-meta {
+      background: #1c1915;
+      border-top: 2px solid #0e0c0a;
+      border-left: 2px solid #0e0c0a;
+      border-right: 2px solid #595043;
+      border-bottom: 2px solid #595043;
+      padding: 4px 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .advisor-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .advisor-name {
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      text-shadow: 1px 1px 0 #000;
+      white-space: nowrap;
+    }
+
+    .advisor-ministry {
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: #b8b0a0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .advisor-pitch-summary {
+      font-size: 11px;
+      line-height: 1.25;
+      color: #e6decb;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Bottom Council Chamber Deck */
+    .council-floor {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 8px;
+      background: #231f1a;
+      border-top: 2px solid #0e0c0a;
+      border-left: 2px solid #0e0c0a;
+      border-right: 2px solid #5c5346;
+      border-bottom: 2px solid #5c5346;
+      padding: 8px;
+    }
+
+    @media (max-width: 920px) {
+      .council-floor {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .floor-left,
+    .floor-right {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .speaker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: #171410;
+      border: 1px solid #453e33;
+      padding: 5px 8px;
+    }
+
+    .speaker-title {
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .file-ref {
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #9be89b;
+      background: #0a0907;
+      padding: 2px 6px;
+      border: 1px inset #444;
+    }
+
+    /* Classic Civ II Parchment Speech Box */
+    .speech-box {
+      background: var(--parchment);
+      color: #141008;
+      border-top: 3px solid #fff8dc;
+      border-left: 3px solid #fff8dc;
+      border-right: 3px solid #5e5336;
+      border-bottom: 3px solid #5e5336;
+      box-shadow: inset 1px 1px 0 #d6c79c, 3px 3px 0 #000;
+      padding: 10px 12px;
+      min-height: 66px;
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.38;
+    }
+
+    .speech-word {
+      padding: 0 2px;
+    }
+
+    .speech-word.spoken {
+      color: #000;
+    }
+
+    .speech-word.current {
+      background: #800000;
+      color: #ffff66;
+    }
+
+    .interjections-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .interject-btn {
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 12px;
+      background: #d6c69e;
+      color: #1a0f08;
+    }
+
+    .interject-btn.playing {
+      background: #801b1b;
+      color: #ffff80;
+    }
+
+    .actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .actions-left,
+    .actions-skins {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #d9b854;
+      border-top-color: #fff0b8;
+      border-left-color: #fff0b8;
+      border-right-color: #4d3b08;
+      border-bottom-color: #4d3b08;
+    }
+
+    /* Sunken DOS / Green-Screen Code Inspector */
+    .code-card {
+      background: #070907;
+      border-top: 2px solid #000;
+      border-left: 2px solid #000;
+      border-right: 2px solid #524a3e;
+      border-bottom: 2px solid #524a3e;
+      padding: 8px 10px;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.4;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      color: #55ff77;
+    }
+
+    .plan-list {
+      background: var(--parchment-dk);
+      color: #111;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #333;
+      border-bottom: 2px solid #333;
+      padding: 8px 12px 8px 26px;
+      font-family: "Times New Roman", Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.4;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .plan-list.visible {
+      display: flex;
+    }
+
+    /* Sprite Rig Inspector Bar */
+    .rig-inspector {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 8px;
+      background: #1c1914;
+      border: 2px inset #524a3e;
+      flex-wrap: wrap;
+    }
+
+    .rig-inspector.visible {
+      display: flex;
+    }
+
+    .rig-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .rig-label {
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="civ2-window">
+    <header class="titlebar">
+      <div class="titlebar-left">
+        <span>HIGH COUNCIL</span>
+        <span class="cdrom-tag" id="repo-badge">demo/workspace · v2 · 320x240 CINEPAK</span>
+        <select class="win95-select" id="date-select" title="Select OpenCode V2 Day or Demo">
+          <option value="demo">Demo Session (Voiced)</option>
+        </select>
+      </div>
+      <div class="titlebar-controls">
+        <button id="btn-roundtable" type="button">Consult Council</button>
+        <button id="btn-anarchy" class="anarchy-btn" type="button">Anarchy!</button>
+        <button id="btn-rig" type="button">Sprites</button>
+        <button id="btn-mute" type="button">Sound: ON</button>
+      </div>
+    </header>
+
+    <section class="rig-inspector" id="rig-inspector">
+      <div class="rig-group" id="rig-expressions">
+        <span class="rig-label">EXPRESSION:</span>
+        <button type="button" data-expr="neutral">neutral</button>
+        <button type="button" data-expr="excited">excited</button>
+        <button type="button" data-expr="worried">worried</button>
+        <button type="button" data-expr="smug">smug</button>
+        <button type="button" data-expr="annoyed">annoyed</button>
+        <button type="button" data-blink="1">blink</button>
+      </div>
+      <div class="rig-group" id="rig-visemes">
+        <span class="rig-label">VISEME:</span>
+        <button type="button" data-viseme="closed">closed</button>
+        <button type="button" data-viseme="open">open</button>
+        <button type="button" data-viseme="wide">wide</button>
+        <button type="button" data-viseme="round">round</button>
+        <button type="button" data-viseme="fv">fv</button>
+      </div>
+    </section>
+
+    <main class="council-grid" id="council-grid"></main>
+
+    <section class="council-floor" id="council-floor">
+      <div class="floor-left">
+        <div class="speaker-header">
+          <div class="speaker-title" id="speaker-title"></div>
+          <span class="file-ref" id="file-ref"></span>
+        </div>
+        <div class="speech-box" id="speech-box"></div>
+        <div class="interjections-bar" id="interjections-bar"></div>
+        <div class="actions-row">
+          <div class="actions-left">
+            <button class="btn-primary" id="btn-speak" type="button">Speak Pitch</button>
+            <button id="btn-plan" type="button">Open PR Plan</button>
+            <button id="btn-dig" type="button">Dig Deeper</button>
+            <button id="btn-dismiss" type="button">Dismiss</button>
+          </div>
+          <div class="actions-skins" id="skin-links">
+            <a class="win95-link" href="/codec">MGS Codec</a>
+            <a class="win95-link" href="/starfox">Star Fox 64</a>
+            <a class="win95-link" href="/defcon">DEFCON</a>
+            <a class="win95-link" href="/breach">Into the Breach</a>
+            <a class="win95-link" href="/overworld">Overworld</a>
+          </div>
+        </div>
+      </div>
+      <div class="floor-right">
+        <pre class="code-card" id="diff-preview"></pre>
+        <ol class="plan-list" id="plan-list"></ol>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    const EXPRESSIONS = ["neutral", "excited", "worried", "smug", "annoyed"];
+    const VISEMES = ["closed", "open", "wide", "round", "fv"];
+    const CHOPPY_TICK_MS = 110; // ~9 fps stepped CD-ROM FMV clock!
+
+    const MINISTRIES = {
+      simplifier: "MINISTER OF SHEARS",
+      performance: "MASTER OF CLOCKS",
+      "bug-hunter": "KEEPER OF THE JAR",
+      architect: "GRAND MASON",
+      "user-voice": "TRIBUNE OF THE PEOPLE",
+      contrarian: "COURT MACHIAVEL",
+    };
+
+    const params = new URLSearchParams(location.search);
+    let currentDate = params.get("date") || "";
+
+    let state = null;
+    let selectedAdvisorId = "bug-hunter";
+    let activeSpeakerId = null;
+    let activeClip = null;
+    let currentAudio = null;
+    let isMuted = false;
+    let isAnarchy = false;
+    let isRoundtable = false;
+    let anarchyTimers = [];
+    let sequenceToken = 0;
+    let audioCtx = null;
+
+    const advisorRig = new Map();
+
+    // Synthesize subtle 1996 SoundBlaster 16 / AdLib voice blip when playing unvoiced dynamic clips
+    function playRetroSyllableBlip(advisorId, viseme) {
+      if (isMuted || viseme === "closed" || params.has("capture")) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        const baseFreqs = {
+          simplifier: 265,
+          performance: 195,
+          "bug-hunter": 175,
+          architect: 145,
+          "user-voice": 285,
+          contrarian: 158,
+        };
+        const visemeMult = { open: 1.0, wide: 1.14, round: 0.88, fv: 1.22 };
+        const f = (baseFreqs[advisorId] || 200) * (visemeMult[viseme] || 1.0);
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.018, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.065);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.07);
+      } catch {}
+    }
+
+    async function loadDatesMenu() {
+      const sel = document.getElementById("date-select");
+      try {
+        const res = await fetch("./api/dates");
+        if (!res.ok) return;
+        const info = await res.json();
+        sel.innerHTML = "";
+        if (info.hasCustomFile) {
+          const opt = document.createElement("option");
+          opt.value = "custom";
+          opt.textContent = "Custom Briefing JSON";
+          sel.appendChild(opt);
+        }
+        const demoOpt = document.createElement("option");
+        demoOpt.value = "demo";
+        demoOpt.textContent = "Demo Session (Voiced 1996 FMV)";
+        sel.appendChild(demoOpt);
+
+        for (const d of info.opencodeDates || []) {
+          const opt = document.createElement("option");
+          opt.value = d.date;
+          opt.textContent = `${d.date} · OpenCode (${d.sessions} sess, ${d.projects.slice(0, 2).join("/") || "work"})`;
+          sel.appendChild(opt);
+        }
+        if (!currentDate) {
+          currentDate = info.hasCustomFile ? "custom" : info.defaultDate || "demo";
+        }
+        sel.value = currentDate;
+      } catch {}
+    }
+
+    function updateSkinLinks() {
+      const q = currentDate && currentDate !== "demo" ? `?date=${encodeURIComponent(currentDate)}&s=${encodeURIComponent(currentDate)}` : "";
+      for (const a of document.querySelectorAll("#skin-links a")) {
+        const base = a.getAttribute("href").split("?")[0];
+        a.setAttribute("href", `${base}${q}`);
+      }
+    }
+
+    async function loadCouncilState(dateOverride) {
+      const q = dateOverride ? `?date=${encodeURIComponent(dateOverride)}` : "";
+      try {
+        const res = await fetch(`./api/council${q}`);
+        if (res.ok) return await res.json();
+      } catch {}
+      const fallback = await fetch("./council-state.json");
+      return await fallback.json();
+    }
+
+    function resolveAssetUrl(relPath) {
+      if (!relPath) return "";
+      return relPath.startsWith("/") ? `.${relPath}` : relPath;
+    }
+
+    function initAdvisorRigState(advisors) {
+      advisorRig.clear();
+      for (const adv of advisors) {
+        advisorRig.set(adv.id, {
+          expression: "neutral",
+          baseExpression: "neutral",
+          viseme: "closed",
+          speaking: false,
+          interjecting: false,
+          blinking: false,
+          anarchyA: false,
+          shoutText: "",
+          tickCount: Math.floor(Math.random() * 20),
+          elements: null,
+        });
+      }
+    }
+
+    function buildCouncilGrid() {
+      const grid = document.getElementById("council-grid");
+      grid.innerHTML = "";
+
+      document.getElementById("repo-badge").textContent =
+        `${state.repo} · ${state.branch} · 320x240 CINEPAK`;
+
+      for (const adv of state.advisors) {
+        const card = document.createElement("div");
+        card.className = "advisor-card";
+        card.dataset.advisorId = adv.id;
+
+        const viewport = document.createElement("div");
+        viewport.className = "portrait-viewport";
+
+        const rig = document.createElement("div");
+        rig.className = "portrait-rig";
+
+        const exprLayers = {};
+        for (const expr of EXPRESSIONS) {
+          const img = document.createElement("img");
+          img.className = `sprite-layer expr-layer${expr === "neutral" ? " visible" : ""}`;
+          img.src = `./advisors/${adv.id}/${expr}.webp`;
+          img.alt = `${adv.name} ${expr}`;
+          rig.appendChild(img);
+          exprLayers[expr] = img;
+        }
+
+        const blinkImg = document.createElement("img");
+        blinkImg.className = "sprite-layer blink-layer";
+        blinkImg.src = `./advisors/${adv.id}/patch-blink.webp`;
+        blinkImg.alt = "";
+        rig.appendChild(blinkImg);
+
+        const mouthLayers = {};
+        for (const v of VISEMES) {
+          const img = document.createElement("img");
+          img.className = `sprite-layer mouth-layer`;
+          img.src = `./advisors/${adv.id}/patch-mouth-${v}.webp`;
+          img.alt = "";
+          rig.appendChild(img);
+          mouthLayers[v] = img;
+        }
+
+        const topPills = document.createElement("div");
+        topPills.className = "viewport-top-pills";
+
+        const exprPill = document.createElement("span");
+        exprPill.className = "expr-pill";
+        exprPill.textContent = "neutral";
+
+        const statusPill = document.createElement("span");
+        statusPill.className = "status-pill";
+        statusPill.style.display = "none";
+
+        topPills.append(exprPill, statusPill);
+
+        const shoutBanner = document.createElement("div");
+        shoutBanner.className = "shout-banner";
+
+        const anarchyScreen = document.createElement("div");
+        anarchyScreen.className = "anarchy-screen";
+        anarchyScreen.innerHTML = `<span class="anarchy-letter">A</span>`;
+
+        viewport.append(rig, topPills, shoutBanner, anarchyScreen);
+
+        const ministry = MINISTRIES[adv.id] || "COUNCIL ADVISOR";
+        const meta = document.createElement("div");
+        meta.className = "advisor-meta";
+        meta.innerHTML = `
+          <div class="advisor-name-row">
+            <span class="advisor-name">${adv.icon} ${adv.name}</span>
+            <span class="advisor-ministry">${adv.evidence.metric}</span>
+          </div>
+          <div class="advisor-pitch-summary">${adv.pitchTitle}</div>
+        `;
+
+        card.append(viewport, meta);
+        card.addEventListener("click", () => {
+          selectAndSpeakAdvisor(adv.id, true);
+        });
+
+        grid.appendChild(card);
+
+        const rigState = advisorRig.get(adv.id);
+        rigState.elements = {
+          card,
+          rig,
+          exprLayers,
+          blinkImg,
+          mouthLayers,
+          exprPill,
+          statusPill,
+          shoutBanner,
+          anarchyScreen,
+        };
+      }
+    }
+
+    function setAdvisorExpression(advisorId, expr, isBase = true) {
+      const r = advisorRig.get(advisorId);
+      if (!r || !r.elements) return;
+      r.expression = expr;
+      if (isBase) r.baseExpression = expr;
+      for (const [k, img] of Object.entries(r.elements.exprLayers)) {
+        img.classList.toggle("visible", k === expr);
+      }
+      r.elements.exprPill.textContent = r.speaking
+        ? `${expr} · TALK`
+        : expr;
+    }
+
+    function setAdvisorViseme(advisorId, viseme, showPatch) {
+      const r = advisorRig.get(advisorId);
+      if (!r || !r.elements) return;
+      const changed = r.viseme !== viseme;
+      r.viseme = viseme;
+      for (const [k, img] of Object.entries(r.elements.mouthLayers)) {
+        img.classList.toggle("visible", Boolean(showPatch && k === viseme));
+      }
+      if (changed && showPatch && (!activeClip || !activeClip.audioUrl)) {
+        playRetroSyllableBlip(advisorId, viseme);
+      }
+    }
+
+    function syncCardsChrome() {
+      for (const adv of state.advisors) {
+        const r = advisorRig.get(adv.id);
+        if (!r?.elements) continue;
+        const { card, statusPill, shoutBanner, exprPill, anarchyScreen } =
+          r.elements;
+
+        card.classList.toggle("selected", adv.id === selectedAdvisorId);
+        card.classList.toggle("speaking", r.speaking && !r.interjecting);
+        card.classList.toggle("interjecting", r.interjecting);
+        card.classList.toggle("status-dismissed", adv.status === "dismissed");
+
+        exprPill.textContent = r.speaking ? `${r.expression} · TALK` : r.expression;
+
+        if (adv.status === "pending") {
+          statusPill.style.display = "none";
+          statusPill.className = "status-pill";
+        } else {
+          statusPill.style.display = "inline-block";
+          statusPill.className = `status-pill ${adv.status}`;
+          statusPill.textContent = adv.status;
+        }
+
+        shoutBanner.textContent = r.shoutText;
+        shoutBanner.classList.toggle("visible", Boolean(r.shoutText));
+        anarchyScreen.classList.toggle("visible", r.anarchyA);
+      }
+    }
+
+    function renderTranscript(clip, currentSec = -1) {
+      const box = document.getElementById("speech-box");
+      if (!clip) {
+        box.textContent = "";
+        return;
+      }
+      box.innerHTML = "";
+      for (const w of clip.words) {
+        const span = document.createElement("span");
+        span.className = "speech-word";
+        if (currentSec >= w.e) {
+          span.classList.add("spoken");
+        } else if (currentSec >= w.s && currentSec < w.e) {
+          span.classList.add("current");
+        }
+        span.textContent = w.word + " ";
+        box.appendChild(span);
+      }
+    }
+
+    function renderCouncilFloor() {
+      const adv = state.advisors.find((a) => a.id === selectedAdvisorId);
+      if (!adv) return;
+
+      document.getElementById("speaker-title").textContent =
+        `${adv.icon} ${adv.name} — ${adv.pitchTitle}`;
+      document.getElementById("file-ref").textContent =
+        `${adv.evidence.targetFile} (${adv.evidence.refLabel})`;
+      document.getElementById("diff-preview").textContent =
+        adv.evidence.diffPreview;
+
+      const planList = document.getElementById("plan-list");
+      planList.innerHTML = "";
+      for (const step of adv.evidence.prPlanSteps) {
+        const li = document.createElement("li");
+        li.textContent = step;
+        planList.appendChild(li);
+      }
+      planList.classList.toggle(
+        "visible",
+        adv.status === "planned" || adv.status === "investigating",
+      );
+
+      const pitchClip = state.clips[adv.pitchClipId];
+      if (!activeClip || activeClip.advisorId === adv.id) {
+        renderTranscript(pitchClip, -1);
+      }
+
+      const interjectBar = document.getElementById("interjections-bar");
+      interjectBar.innerHTML = "";
+      for (const interj of adv.interjections) {
+        const rival = state.advisors.find((a) => a.id === interj.advisorId);
+        const clip = state.clips[interj.clipId];
+        if (!rival || !clip) continue;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "interject-btn";
+        btn.dataset.clipId = interj.clipId;
+        btn.textContent = `${rival.icon} ${rival.name}: "${clip.text}"`;
+        btn.addEventListener("click", () => {
+          playInterjection(adv, interj, ++sequenceToken);
+        });
+        interjectBar.appendChild(btn);
+      }
+    }
+
+    function stopCurrentAudio() {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+      activeClip = null;
+      activeSpeakerId = null;
+      for (const adv of state.advisors) {
+        const r = advisorRig.get(adv.id);
+        if (r) {
+          r.speaking = false;
+          r.interjecting = false;
+          r.shoutText = "";
+          setAdvisorExpression(adv.id, r.baseExpression, false);
+          setAdvisorViseme(adv.id, "closed", false);
+          if (r.elements) r.elements.rig.style.transform = "translate(0px, 0px)";
+        }
+      }
+      for (const btn of document.querySelectorAll(".interject-btn")) {
+        btn.classList.remove("playing");
+      }
+      syncCardsChrome();
+    }
+
+    function playClipWithLipSync(clip, { isInterjection = false, shoutText = "" } = {}) {
+      return new Promise((resolve) => {
+        stopCurrentAudio();
+        activeClip = clip;
+        activeSpeakerId = clip.advisorId;
+
+        const r = advisorRig.get(clip.advisorId);
+        if (r) {
+          r.speaking = true;
+          r.interjecting = isInterjection;
+          r.shoutText = shoutText;
+        }
+        syncCardsChrome();
+        renderTranscript(clip, 0);
+
+        const startSimulatedClock = () => {
+          const start = performance.now();
+          const timer = setInterval(() => {
+            if (activeClip !== clip) {
+              clearInterval(timer);
+              resolve(false);
+              return;
+            }
+            const elapsed = (performance.now() - start) / 1000;
+            updateLipSyncAtTime(clip, elapsed);
+            if (elapsed >= clip.duration) {
+              clearInterval(timer);
+              stopCurrentAudio();
+              resolve(true);
+            }
+          }, CHOPPY_TICK_MS);
+        };
+
+        if (isMuted || !clip.audioUrl || params.has("capture")) {
+          startSimulatedClock();
+          return;
+        }
+
+        const audio = new Audio(resolveAssetUrl(clip.audioUrl));
+        currentAudio = audio;
+        audio.addEventListener("ended", () => {
+          if (currentAudio === audio) stopCurrentAudio();
+          resolve(true);
+        });
+        audio.addEventListener("error", () => startSimulatedClock());
+        audio.play().catch(startSimulatedClock);
+      });
+    }
+
+    function updateLipSyncAtTime(clip, sec) {
+      let viseme = "closed";
+      for (let i = 0; i < clip.visemes.length; i++) {
+        const cue = clip.visemes[i];
+        if (sec >= cue.t && sec <= cue.e + 0.04) {
+          viseme = cue.v;
+          break;
+        }
+      }
+      setAdvisorViseme(clip.advisorId, viseme, true);
+      renderTranscript(clip, sec);
+    }
+
+    async function playInterjection(pitchAdvisor, interj, token) {
+      if (token !== sequenceToken || isAnarchy) return;
+      const clip = state.clips[interj.clipId];
+      if (!clip) return;
+
+      setAdvisorExpression(interj.advisorId, interj.expression, true);
+      setAdvisorExpression(pitchAdvisor.id, interj.targetExpression, true);
+
+      for (const btn of document.querySelectorAll(".interject-btn")) {
+        btn.classList.toggle("playing", btn.dataset.clipId === interj.clipId);
+      }
+
+      await playClipWithLipSync(clip, {
+        isInterjection: true,
+        shoutText: clip.text,
+      });
+    }
+
+    async function selectAndSpeakAdvisor(advisorId, autoPlay = true) {
+      if (isAnarchy) exitAnarchy();
+      const token = ++sequenceToken;
+      selectedAdvisorId = advisorId;
+      stopCurrentAudio();
+
+      const adv = state.advisors.find((a) => a.id === advisorId);
+      if (!adv) return;
+
+      for (const [id, expr] of Object.entries(adv.councilReactions)) {
+        setAdvisorExpression(id, expr, true);
+      }
+      setAdvisorExpression(adv.id, adv.pitchExpression, true);
+      renderCouncilFloor();
+      syncCardsChrome();
+
+      if (!autoPlay) return;
+
+      const pitchClip = state.clips[adv.pitchClipId];
+      if (!pitchClip) return;
+
+      const finished = await playClipWithLipSync(pitchClip);
+      if (!finished || token !== sequenceToken) return;
+
+      if (adv.interjections.length > 0) {
+        await new Promise((r) => setTimeout(r, 220));
+        if (token !== sequenceToken) return;
+        await playInterjection(adv, adv.interjections[0], token);
+      }
+    }
+
+    function enterAnarchy() {
+      isAnarchy = true;
+      isRoundtable = false;
+      document.getElementById("btn-roundtable").classList.remove("active");
+      document.getElementById("btn-anarchy").classList.add("active");
+      ++sequenceToken;
+      stopCurrentAudio();
+
+      const shoutLines = {
+        simplifier: "DELETE IT ALL!",
+        performance: "40MS WASTED!",
+        "bug-hunter": "LEAKED SEMAPHORE!",
+        architect: "UNTYPED HERESY!",
+        "user-voice": "READ THE ISSUES!",
+        contrarian: "BREAKS WINDOWS!",
+      };
+
+      for (const adv of state.advisors) {
+        const r = advisorRig.get(adv.id);
+        setAdvisorExpression(adv.id, "annoyed", true);
+        r.speaking = true;
+        r.interjecting = true;
+        r.shoutText = shoutLines[adv.id] || "ANARCHY!";
+        r.anarchyA = false;
+      }
+      syncCardsChrome();
+
+      const visemeTimer = setInterval(() => {
+        if (!isAnarchy) return;
+        for (const adv of state.advisors) {
+          const r = advisorRig.get(adv.id);
+          if (!r.anarchyA) {
+            const v = VISEMES[Math.floor(Math.random() * VISEMES.length)];
+            const e = EXPRESSIONS[Math.floor(Math.random() * EXPRESSIONS.length)];
+            setAdvisorExpression(adv.id, e, false);
+            setAdvisorViseme(adv.id, v, true);
+          }
+        }
+      }, CHOPPY_TICK_MS);
+      anarchyTimers.push(visemeTimer);
+
+      state.advisors.forEach((adv, idx) => {
+        const t = setTimeout(() => {
+          if (!isAnarchy) return;
+          const r = advisorRig.get(adv.id);
+          r.anarchyA = true;
+          r.shoutText = "";
+          setAdvisorViseme(adv.id, "closed", false);
+          syncCardsChrome();
+        }, 1500 + idx * 280);
+        anarchyTimers.push(t);
+      });
+    }
+
+    function exitAnarchy() {
+      isAnarchy = false;
+      document.getElementById("btn-anarchy").classList.remove("active");
+      for (const t of anarchyTimers) {
+        clearInterval(t);
+        clearTimeout(t);
+      }
+      anarchyTimers = [];
+      for (const adv of state.advisors) {
+        const r = advisorRig.get(adv.id);
+        r.anarchyA = false;
+        r.speaking = false;
+        r.interjecting = false;
+        r.shoutText = "";
+        setAdvisorExpression(adv.id, "neutral", true);
+        setAdvisorViseme(adv.id, "closed", false);
+      }
+      syncCardsChrome();
+    }
+
+    async function sendDecision(action) {
+      const adv = state.advisors.find((a) => a.id === selectedAdvisorId);
+      if (!adv) return;
+
+      try {
+        const res = await fetch(`./api/decision?date=${encodeURIComponent(currentDate)}`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ advisorId: adv.id, action, date: currentDate }),
+        });
+        if (res.ok) {
+          state = await res.json();
+        } else {
+          throw new Error("static fallback");
+        }
+      } catch {
+        adv.status =
+          action === "plan"
+            ? "planned"
+            : action === "dig"
+              ? "investigating"
+              : "dismissed";
+      }
+
+      if (action === "dismiss") {
+        stopCurrentAudio();
+        setAdvisorExpression(adv.id, "annoyed", true);
+        setAdvisorExpression("contrarian", "smug", true);
+      } else if (action === "plan") {
+        setAdvisorExpression(adv.id, "excited", true);
+      }
+
+      renderCouncilFloor();
+      syncCardsChrome();
+    }
+
+    function stepCouncilTick() {
+      if (!state?.advisors) return;
+      if (currentAudio && activeClip && !currentAudio.paused) {
+        updateLipSyncAtTime(activeClip, currentAudio.currentTime);
+      }
+
+      for (const adv of state.advisors) {
+        const r = advisorRig.get(adv.id);
+        if (!r?.elements) continue;
+        r.tickCount++;
+
+        if (r.blinking) {
+          r.blinking = false;
+          r.elements.blinkImg.classList.remove("visible");
+        } else if (r.tickCount % 33 === 0 && Math.random() < 0.75) {
+          r.blinking = true;
+          r.elements.blinkImg.classList.add("visible");
+        }
+
+        if (isAnarchy && !r.anarchyA) {
+          const dx = ((r.tickCount % 3) - 1) * 4;
+          const dy = (((r.tickCount >> 1) % 3) - 1) * 3;
+          r.elements.rig.style.transform = `translate(${dx}px, ${dy}px)`;
+        } else if (r.speaking) {
+          const bobSteps = [0, -2, -3, 0, 2, 0];
+          const dxSteps = [0, 1, 0, -1, 0, 2];
+          const dy = bobSteps[r.tickCount % bobSteps.length];
+          const dx = dxSteps[r.tickCount % dxSteps.length];
+          r.elements.rig.style.transform = `translate(${dx}px, ${dy}px)`;
+
+          if (r.tickCount % 9 === 0) {
+            const actCycle = [r.baseExpression, "excited", r.baseExpression, "annoyed", "smug"];
+            const nextExpr = actCycle[(r.tickCount / 9) % actCycle.length | 0];
+            setAdvisorExpression(adv.id, nextExpr, false);
+          }
+        } else {
+          const idleY = (Math.floor(r.tickCount / 12) % 2) * -1;
+          r.elements.rig.style.transform = `translate(0px, ${idleY}px)`;
+        }
+      }
+    }
+
+    // Stepped 9fps (110ms) choppy 90s CD-ROM FMV animation loop!
+    setInterval(stepCouncilTick, CHOPPY_TICK_MS);
+
+    // Wire UI controls
+    document.getElementById("date-select").addEventListener("change", async (e) => {
+      currentDate = e.target.value;
+      updateSkinLinks();
+      stopCurrentAudio();
+      state = await loadCouncilState(currentDate);
+      initAdvisorRigState(state.advisors);
+      buildCouncilGrid();
+      await selectAndSpeakAdvisor("simplifier", true);
+    });
+
+    document.getElementById("btn-speak").addEventListener("click", () => {
+      selectAndSpeakAdvisor(selectedAdvisorId, true);
+    });
+    document.getElementById("btn-plan").addEventListener("click", () => {
+      sendDecision("plan");
+    });
+    document.getElementById("btn-dig").addEventListener("click", () => {
+      sendDecision("dig");
+    });
+    document.getElementById("btn-dismiss").addEventListener("click", () => {
+      sendDecision("dismiss");
+    });
+
+    document.getElementById("btn-anarchy").addEventListener("click", () => {
+      if (isAnarchy) exitAnarchy();
+      else enterAnarchy();
+    });
+
+    document.getElementById("btn-roundtable").addEventListener("click", async () => {
+      if (isRoundtable) {
+        isRoundtable = false;
+        ++sequenceToken;
+        stopCurrentAudio();
+        document.getElementById("btn-roundtable").classList.remove("active");
+        return;
+      }
+      if (isAnarchy) exitAnarchy();
+      isRoundtable = true;
+      document.getElementById("btn-roundtable").classList.add("active");
+      for (const adv of state.advisors) {
+        if (!isRoundtable) break;
+        await selectAndSpeakAdvisor(adv.id, true);
+        if (!isRoundtable) break;
+        await new Promise((r) => setTimeout(r, 350));
+      }
+      isRoundtable = false;
+      document.getElementById("btn-roundtable").classList.remove("active");
+    });
+
+    document.getElementById("btn-mute").addEventListener("click", (e) => {
+      isMuted = !isMuted;
+      e.currentTarget.textContent = `Sound: ${isMuted ? "OFF" : "ON"}`;
+      e.currentTarget.classList.toggle("active", isMuted);
+      if (isMuted && currentAudio) {
+        currentAudio.pause();
+      }
+    });
+
+    document.getElementById("btn-rig").addEventListener("click", (e) => {
+      const bar = document.getElementById("rig-inspector");
+      const open = bar.classList.toggle("visible");
+      e.currentTarget.classList.toggle("active", open);
+    });
+
+    document.getElementById("rig-expressions").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      if (btn.dataset.blink) {
+        const r = advisorRig.get(selectedAdvisorId);
+        if (r?.elements) {
+          r.elements.blinkImg.classList.add("visible");
+          setTimeout(() => r.elements.blinkImg.classList.remove("visible"), 220);
+        }
+        return;
+      }
+      if (btn.dataset.expr) {
+        setAdvisorExpression(selectedAdvisorId, btn.dataset.expr, true);
+        syncCardsChrome();
+      }
+    });
+
+    document.getElementById("rig-visemes").addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn || !btn.dataset.viseme) return;
+      stopCurrentAudio();
+      setAdvisorViseme(selectedAdvisorId, btn.dataset.viseme, true);
+    });
+
+    addEventListener("keydown", (e) => {
+      if (e.key >= "1" && e.key <= "6") {
+        const adv = state?.advisors[Number(e.key) - 1];
+        if (adv) selectAndSpeakAdvisor(adv.id, true);
+      } else if (e.key === "a" || e.key === "A") {
+        sendDecision("plan");
+      } else if (e.key === "d" || e.key === "D") {
+        sendDecision("dismiss");
+      }
+    });
+
+    // Boot
+    await loadDatesMenu();
+    updateSkinLinks();
+    state = await loadCouncilState(currentDate);
+    initAdvisorRigState(state.advisors);
+    buildCouncilGrid();
+    await selectAndSpeakAdvisor("bug-hunter", false);
+
+    // Deterministic capture hook for `high-council --record`
+    if (params.has("capture")) {
+      let virtSec = 0;
+      let tickAcc = 0;
+      window.__step = async (ms) => {
+        virtSec += ms / 1000;
+        tickAcc += ms;
+        if (activeClip) {
+          updateLipSyncAtTime(activeClip, virtSec % (activeClip.duration + 0.5));
+        }
+        while (tickAcc >= CHOPPY_TICK_MS) {
+          tickAcc -= CHOPPY_TICK_MS;
+          stepCouncilTick();
+        }
+      };
+    }
+  </script>
+</body>
+</html>

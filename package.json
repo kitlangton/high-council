@@ -1,0 +1,64 @@
+{
+  "name": "high-council",
+  "version": "0.1.0",
+  "description": "1996 Civilization II High Council and retro video-game briefings for your day in OpenCode V2.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kit Langton",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitlangton/high-council.git"
+  },
+  "homepage": "https://github.com/kitlangton/high-council#readme",
+  "bugs": {
+    "url": "https://github.com/kitlangton/high-council/issues"
+  },
+  "bin": {
+    "high-council": "bin/high-council.ts"
+  },
+  "engines": {
+    "bun": ">=1.3.0"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "bin/high-council.ts",
+    "src/**/*.ts",
+    "stage/**/*.ts",
+    "stage/**/*.html",
+    "public/index.html",
+    "public/council-state.json",
+    "public/audio/*.mp3",
+    "public/audio/manifest.json",
+    "public/advisors/*/*.webp",
+    "public/codec/*.webp",
+    "public/starfox/*.webp",
+    "public/cabinet/*.webp",
+    "public/fonts/*"
+  ],
+  "scripts": {
+    "dev": "bun --watch run src/server.ts",
+    "start": "bun run bin/high-council.ts",
+    "sprites": "bun run scripts/composite-sprites.ts",
+    "audio": "bun run scripts/generate-audio.ts",
+    "export-static": "bun run scripts/export-static-state.ts",
+    "brief": "bun run scripts/brief.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "demo-brief": "bun run scripts/demo-brief.ts",
+    "record": "bun run scripts/record.ts",
+    "check:package": "bun run scripts/check-package.ts",
+    "prepublishOnly": "bun run typecheck && bun run test && bun run check:package"
+  },
+  "dependencies": {
+    "effect": "4.0.1",
+    "vgpu": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "@webgpu/types": "^0.1.74",
+    "playwright": "^1.63.0",
+    "sharp": "0.35.5",
+    "typescript": "^7.0.2"
+  }
+}
