@@ -25,6 +25,7 @@ export interface ServerOptions {
   defaultDate?: string
   fromFile?: string
   briefingsDir?: string
+  initialBundle?: { council: CouncilState; briefing: Briefing; scenario: typeof demoScenario }
 }
 
 export function startCouncilServer(opts: ServerOptions = {}) {
@@ -36,10 +37,11 @@ export function startCouncilServer(opts: ServerOptions = {}) {
   const DEFAULT_DATE = opts.defaultDate ?? process.env.HIGH_COUNCIL_DATE ?? ""
   const FROM_FILE = opts.fromFile ?? process.env.HIGH_COUNCIL_FROM ?? ""
   const PUBLIC_DIR = join(import.meta.dir, "..", "public")
-  const BRIEFINGS_DIR = opts.briefingsDir ?? process.env.HIGH_COUNCIL_BRIEFINGS_DIR ?? join(import.meta.dir, "..", ".briefings")
+  const BRIEFINGS_DIR = opts.briefingsDir ?? process.env.HIGH_COUNCIL_BRIEFINGS_DIR ?? join(process.cwd(), ".briefings")
 
   // Cache per-date council states and decision statuses in memory
   const councilCache = new Map<string, { council: CouncilState; briefing: Briefing; scenario: typeof demoScenario }>()
+  if (opts.initialBundle) councilCache.set(DEFAULT_DATE, opts.initialBundle)
   const decisionOverrides = new Map<string, Record<string, DecisionStatus>>()
 
   const savedBriefingDates = (): string[] => {
@@ -141,6 +143,7 @@ export function startCouncilServer(opts: ServerOptions = {}) {
   }
 
   const server = Bun.serve({
+    hostname: "127.0.0.1",
     port: PORT,
     development: process.env.NODE_ENV !== "production",
     routes: {

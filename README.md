@@ -27,6 +27,10 @@ bunx high-council --date 2026-10-05 --export ./council-2026-10-05.json
 bunx high-council --date 2026-10-05 --record ./council-2026-10-05.mp4
 ```
 
+Recording is experimental: a silent 10-second preview, not a full narrated briefing.
+It requires FFmpeg on your PATH and Chromium installed with `bunx playwright@1.63.0 install chromium`.
+JSON exports can contain your project names, session titles, and file names. Review them before sharing.
+
 ## How It Works
 
 1. **Read-Only OpenCode V2 Discovery (`--date YYYY-MM-DD`)**
@@ -55,7 +59,8 @@ bunx high-council --date 2026-10-05 --record ./council-2026-10-05.mp4
 
 By default, `high-council` runs **100% locally** and sends **zero data** over the network:
 - Advisor pitches, metrics, viseme tracks, and SoundBlaster-style syllable blips are synthesized locally from your SQLite database.
-- Home directory paths (`/Users/<you>`) and non-public model tokens are automatically scrubbed.
+- The server listens only on `127.0.0.1`. Home directory prefixes and model tokens discovered in the database are scrubbed, but this is not complete anonymization.
+- Advisor recommendations are template-based suggestions, not verified code-review findings. Tool errors do not prove bugs, and repeated edits do not prove missing tests.
 
 If you want LLM-written dialogue or neural TTS voices, you can opt in explicitly:
 

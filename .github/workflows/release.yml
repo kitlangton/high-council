@@ -29,4 +29,7 @@ jobs:
       - run: bun run test
       - name: Inspect package
         run: bun run check:package
+      - run: bunx playwright install --with-deps chromium
+      - name: Verify packed CLI in a clean consumer
+        run: bun run check:consumer
       - run: npm publish --provenance --access public

@@ -80,6 +80,7 @@ if (fromFile && !existsSync(fromFile)) {
 }
 
 let selectedDate = values.demo ? "demo" : values.date ? String(values.date) : ""
+let initialBundle: NonNullable<Parameters<typeof startCouncilServer>[0]>["initialBundle"]
 if (!selectedDate && !fromFile) {
   const recent = listOpenCodeDates(dbPath, 1)[0]
   selectedDate = recent?.date ?? "demo"
@@ -124,6 +125,8 @@ if (selectedDate && selectedDate !== "demo" && !fromFile) {
       writeFileSync(resolve(audioDir, "briefing.json"), JSON.stringify(briefing, null, 2))
     }
 
+    initialBundle = { council, briefing, scenario }
+
     if (values.export) {
       const outPath = resolve(String(values.export))
       mkdirSync(dirname(outPath), { recursive: true })
@@ -149,6 +152,7 @@ try {
     dbPath,
     defaultDate: selectedDate || "demo",
     fromFile,
+    initialBundle,
   })
 } catch {
   // If default port 4321 is busy, pick an ephemeral free port automatically
@@ -157,6 +161,7 @@ try {
     dbPath,
     defaultDate: selectedDate || "demo",
     fromFile,
+    initialBundle,
   })
 }
 

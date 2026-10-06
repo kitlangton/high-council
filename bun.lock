@@ -5,12 +5,12 @@
     "": {
       "dependencies": {
         "effect": "4.0.1",
+        "playwright": "1.63.0",
         "vgpu": "^0.5.0",
       },
       "devDependencies": {
         "@types/bun": "^1.4.2",
         "@webgpu/types": "^0.1.74",
-        "playwright": "^1.63.0",
         "sharp": "0.35.5",
         "typescript": "^7.0.2",
       },

@@ -940,13 +940,19 @@
         const ministry = MINISTRIES[adv.id] || "COUNCIL ADVISOR";
         const meta = document.createElement("div");
         meta.className = "advisor-meta";
-        meta.innerHTML = `
-          <div class="advisor-name-row">
-            <span class="advisor-name">${adv.icon} ${adv.name}</span>
-            <span class="advisor-ministry">${adv.evidence.metric}</span>
-          </div>
-          <div class="advisor-pitch-summary">${adv.pitchTitle}</div>
-        `;
+        const nameRow = document.createElement("div");
+        nameRow.className = "advisor-name-row";
+        const nameLabel = document.createElement("span");
+        nameLabel.className = "advisor-name";
+        nameLabel.textContent = `${adv.icon} ${adv.name}`;
+        const metricLabel = document.createElement("span");
+        metricLabel.className = "advisor-ministry";
+        metricLabel.textContent = adv.evidence.metric;
+        nameRow.append(nameLabel, metricLabel);
+        const pitchSummary = document.createElement("div");
+        pitchSummary.className = "advisor-pitch-summary";
+        pitchSummary.textContent = adv.pitchTitle;
+        meta.append(nameRow, pitchSummary);
 
         card.append(viewport, meta);
         card.addEventListener("click", () => {

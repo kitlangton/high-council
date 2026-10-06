@@ -1,6 +1,6 @@
 {
   "name": "high-council",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "1996 Civilization II High Council and retro video-game briefings for your day in OpenCode V2.",
   "type": "module",
   "license": "MIT",
@@ -48,16 +48,17 @@
     "demo-brief": "bun run scripts/demo-brief.ts",
     "record": "bun run scripts/record.ts",
     "check:package": "bun run scripts/check-package.ts",
+    "check:consumer": "bun run scripts/check-consumer.ts",
     "prepublishOnly": "bun run typecheck && bun run test && bun run check:package"
   },
   "dependencies": {
     "effect": "4.0.1",
+    "playwright": "1.63.0",
     "vgpu": "^0.5.0"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
     "@webgpu/types": "^0.1.74",
-    "playwright": "^1.63.0",
     "sharp": "0.35.5",
     "typescript": "^7.0.2"
   }
